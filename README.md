@@ -1,0 +1,1 @@
+Navigate to the www directory and then open the index.html file to start the application.
