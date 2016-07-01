@@ -17,6 +17,13 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
   }).then(function(modal) {
     $scope.modal = modal;
   });
+
+  $ionicModal.fromTemplateUrl('templates/modal2.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal2 = modal;
+  });
+
   
   $scope.sendMessage = function(u) {        
     $scope.records.$add({ Name: u.userName, Message: u.userMessage, Time: new Date().getTime() });
@@ -24,11 +31,28 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
     u.userMessage = '';
   };
 
+  $scope.sendMessage2 = function(u) {
+    var search = $('#message2').val();
+    $.ajax({url: "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + search, method: 'GET'})
+    .done(function(response) {
+      console.log(response) // the json object that came back from the api
+      var randomImage = response.data.image_url;
+      //console.log(randomImage);
+      //var newImage = ('<img src="' + randomImage + '" />');
+      //console.log(newImage);
+      
+      $scope.records.$add({ Name: u.userName, Message2: randomImage, Time: new Date().getTime() });
+    });        
+    
+    $scope.modal2.hide();
+    //u.userMessage = '';
+  };
+
   $scope.emptyChat = function() {
     ref.remove();
   };
 
-   
+
 
 });
 

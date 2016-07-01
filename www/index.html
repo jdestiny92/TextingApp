@@ -14,7 +14,10 @@
    
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-<script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+
+    <!--Jquery-->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
@@ -44,6 +47,7 @@
     		{{record.Name}}
   			</div>
   			<div class="item item-text-wrap">
+        <img src={{record.Message2}} />
     		{{record.Message}}
   			</div>
   		</div>
@@ -53,6 +57,7 @@
         <div class="button-bar">
           <a class="button button-positive" ng-click="modal.show()">Send Text</a>
           <a class="button button-balanced" ng-click="emptyChat()">Clear Chat</a>
+          <a class="button button-dark" ng-click="modal2.show()">Add GIF</a>
         </div>
       </div>
   
@@ -79,9 +84,30 @@
           </div>
         </ion-content>
       </ion-modal-view>
+  </script>
 
+  <script id="templates/modal2.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Message</h1>
+          <button class="button button-clear button-primary" ng-click="modal2.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
 
-    </script>
+            <label class="item item-input">
+              <input ng-model="newMessage.userName" type="text" placeholder="Name" id="name2">
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="GIF Search Keyword" id="message2">
+            </label>
+            
+            <button class="button button-full button-positive" ng-click="sendMessage2(newMessage)">Send</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+  </script>
 
 
 
