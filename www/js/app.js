@@ -36,7 +36,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
     $.ajax({url: "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + search, method: 'GET'})
     .done(function(response) {
       console.log(response) // the json object that came back from the api
-      var randomImage = response.data.image_url;
+      var randomImage = response.data.fixed_width_downsampled_url;
       //console.log(randomImage);
       //var newImage = ('<img src="' + randomImage + '" />');
       //console.log(newImage);
