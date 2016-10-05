@@ -7,21 +7,10 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
    
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
-
-    <!--Jquery-->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
-<!-- <script src="cordova.js"></script> -->
 
     <!-- Firebase -->
     <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
@@ -34,76 +23,71 @@
   </head>
 
 
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="AppCtrl">
 
-    <ion-pane ng-controller="AppCtrl">
-      <ion-header-bar class="bar-stable bar-positive">
-        <h1 class="title">Julian&apos;s Texting App</h1>
-      </ion-header-bar>
-
-      <ion-content>
-      	<div class="card" ng-repeat="record in records | orderBy: &apos;-Time&apos;">
-  			<div class="item item-divider item-royal">
-    		{{record.Name}}
-  			</div>
-  			<div class="item item-text-wrap">
-        <img src={{record.Message2}} />
-    		{{record.Message}}
-  			</div>
-  		</div>
-      </ion-content>
-
-      <div class="bar bar-footer">
-        <div class="button-bar">
-          <a class="button button-positive" ng-click="modal.show()">Send Text</a>
-          <a class="button button-balanced" ng-click="emptyChat()">Clear Chat</a>
-          <a class="button button-dark" ng-click="modal2.show()">Add GIF</a>
+    <ion-view title="Text &amp; Chill">
+    <ion-content padding="true" class="has-header">
+        <div>
+            <img src="img/picture.gif" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
         </div>
-      </div>
-  
-  </ion-pane>
+
+        <div class="bar bar-footer">
+        	<div class="button-bar">
+          		<a class="button button-calm" ng-click="modal.show()">Sign Up</a>
+          		<a class="button button-royal" ng-click="modal2.show()">Login</a>
+        	</div>
+      	</div>
+
+    </ion-content>
+</ion-view>
+
+      
 
   <script id="templates/modal.html" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar bar-header bar-positive">
-          <h1 class="title">New Message</h1>
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-calm">
+          <h1 class="title">Please Enter Your Info</h1>
           <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
         </ion-header-bar>
         <ion-content class="padding">
           <div class="list">
 
             <label class="item item-input">
-              <input ng-model="newMessage.userName" type="text" placeholder="Your Name" id="name">
+              <input ng-model="newMessage.email" type="text" placeholder="Your Email">
             </label>
 
             <label class="item item-input">
-              <input ng-model="newMessage.userMessage" type="textarea" placeholder="Your Message" id="message">
+              <input type="text" placeholder="Your Username" ng-model="newMessage.username">
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="Your Password" ng-model="newMessage.password">
             </label>
             
-            <button class="button button-full button-positive" ng-click="sendMessage(newMessage)">Send</button>
+            <button class="button button-full button-calm" ng-click="signUp(newMessage)">Sign Up!</button>
           </div>
         </ion-content>
       </ion-modal-view>
   </script>
 
   <script id="templates/modal2.html" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar bar-header bar-positive">
-          <h1 class="title">New Message</h1>
+  	<ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-royal">
+          <h1 class="title">Please Login</h1>
           <button class="button button-clear button-primary" ng-click="modal2.hide()">Cancel</button>
         </ion-header-bar>
         <ion-content class="padding">
           <div class="list">
 
             <label class="item item-input">
-              <input ng-model="newMessage.userName" type="text" placeholder="Your Name" id="name2">
+              <input ng-model="newMessage.email" type="text" placeholder="Your Email">
             </label>
 
             <label class="item item-input">
-              <input type="text" placeholder="GIF Search Keyword" id="message2">
+              <input type="password" placeholder="Your Password" ng-model="newMessage.password">
             </label>
             
-            <button class="button button-full button-positive" ng-click="sendMessage2(newMessage)">Send</button>
+            <button class="button button-full button-royal" ng-click="login(newMessage)">Go!</button>
           </div>
         </ion-content>
       </ion-modal-view>

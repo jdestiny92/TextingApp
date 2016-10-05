@@ -6,8 +6,9 @@
 var app = angular.module("starter", ["ionic",'ionic.service.core', "firebase"]);  
 
 
-app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
+app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
   
+  $scope.nickname;
   var ref = new Firebase('https://juliansfirstapp.firebaseio.com/');
   
   $scope.records = $firebaseArray(ref);
@@ -26,7 +27,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
 
   
   $scope.sendMessage = function(u) {        
-    $scope.records.$add({ Name: u.userName, Message: u.userMessage, Time: new Date().getTime() });
+    $scope.records.$add({ Message: u.userMessage, Time: new Date().getTime() });
     $scope.modal.hide();
     u.userMessage = '';
   };
@@ -37,22 +38,92 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray) {
     .done(function(response) {
       console.log(response) // the json object that came back from the api
       var randomImage = response.data.fixed_width_downsampled_url;
-      //console.log(randomImage);
-      //var newImage = ('<img src="' + randomImage + '" />');
-      //console.log(newImage);
       
-      $scope.records.$add({ Name: u.userName, Message2: randomImage, Time: new Date().getTime() });
+      
+      $scope.records.$add({ Message2: randomImage, Time: new Date().getTime() });
     });        
     
     $scope.modal2.hide();
-    //u.userMessage = '';
+    
   };
 
   $scope.emptyChat = function() {
     ref.remove();
   };
 
+   $scope.signUp = function(u) {        
+    var username = u.username;
+    var email = u.email;
+    var password = u.password;
+    //console.log(username, email, password);
+    var data = {
+      username: username,
+      email: email
+    };
 
+    ref.createUser({
+      email    : email,
+      password : password
+    }, function(error, userData) {
+      if (error) {
+        console.log("Error creating user:", error);
+      } else {
+        console.log("Successfully created user account with uid:", userData.uid);
+
+        $http.post('/signUp', data).then(function successCallback(response){
+          console.log(response);
+        }, function errorCallback(response){
+          console.log(response);
+        });
+      }
+    });
+
+    $scope.modal.hide();
+  };
+
+  $scope.login = function(u) {        
+    var email = u.email;
+    var password = u.password;
+    var data = {
+      email: email
+    };
+    //console.log(email, password);
+    ref.authWithPassword({
+      email    : email,
+      password : password
+    }, function(error, authData) {
+      if (error) {
+        //console.log("Login Failed!", error);
+        return alert('Login failed, please try again');
+      } else {
+        console.log("Authenticated successfully with payload");
+
+        $http.post('/login', data).then(function successCallback(response){
+          console.log(response.data.username);
+          location.href = '/main';
+        }, function errorCallback(response){
+          console.log(response);
+        });
+      }
+
+    });
+
+    $scope.modal2.hide();
+
+  };
+
+  $scope.retrieve = function() {
+    $http({
+      method: 'GET',
+      url: '/retrieve'
+    }).then(function successCallback(response) {
+        //console.log(response);
+        $scope.nickname = response.data;
+        //console.log($scope.nickname);
+      }, function errorCallback(response) {
+        console.log(response);
+      });
+  };
 
 });
 
