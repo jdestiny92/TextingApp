@@ -31,6 +31,7 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+     <script src="js/angular-sanitize/angular-sanitize.js"></script>
   </head>
 
 
@@ -45,25 +46,18 @@
 	        <h1 class="title" ng-init="retrieve()">Welcome Back: {{nickname}}</h1>
 	        <button class="button icon button-right ion-navicon-round" menu-toggle="right" ng-click="toggleLeft()"></button>
 	      	</ion-header-bar>
-	      	</ion-side-menu-content>
-      	<ion-side-menu side="right">
-      		<ion-list>
-      			<ion-item>Send Link</ion-item>
-      			<ion-item>Send Picture Link</ion-item>
-      			<ion-item>Send Youtube Video</ion-item>
-      			<ion-item>Log Out</ion-item>
-      		</ion-list>
-      	</ion-side-menu>
-      </ion-side-menus>
 
-      <ion-content>
+	      	<ion-content>
       	<div class="card" ng-repeat="record in records | orderBy: &apos;-Time&apos;">
   			<div class="item item-divider item-royal">
     		{{record.Name}}
   			</div>
-  			<div class="item item-text-wrap">
+  		<div class="item item-text-wrap">
+  		{{record.Message}}
         <img src={{record.Message2}} />
-    		{{record.Message}}
+        <p ng-bind-html="record.link"></p>
+        <iframe ng-src="{{record.video | trusted}}"></iframe>
+    		
   			</div>
   		</div>
       </ion-content>
@@ -75,6 +69,18 @@
           <a class="button button-dark" ng-click="modal2.show()">Add GIF</a>
         </div>
       </div>
+	      	</ion-side-menu-content>
+      	<ion-side-menu side="right">
+      		<ion-list>
+      			<ion-item ng-click="modal4.show()">Send Link</ion-item>
+      			<ion-item ng-click="modal3.show()">Send Picture</ion-item>
+      			<ion-item ng-click="modal5.show()">Send Youtube Video</ion-item>
+      			<ion-item ng-click="logOut()">Log Out</ion-item>
+      		</ion-list>
+      	</ion-side-menu>
+      </ion-side-menus>
+
+      
   
   </ion-pane>
 
@@ -124,7 +130,78 @@
       </ion-modal-view>
   </script>
 
+  <script id="templates/modal3.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Message</h1>
+          <button class="button button-clear button-primary" ng-click="modal3.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
 
+          	<label class="item item-input">
+              <input type="input" ng-value="username" class="tag" readonly>
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="Picture Link Here" id="message3">
+            </label>
+            
+            <button class="button button-full button-positive" ng-click="sendPicture()">Send</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+  </script>
+
+  <script id="templates/modal4.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Message</h1>
+          <button class="button button-clear button-primary" ng-click="modal4.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+
+          	<label class="item item-input">
+              <input type="input" ng-value="username" class="tag" readonly>
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="Website Link Here" id="message4">
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="Website Link Title" id="website">
+            </label>
+            
+            <button class="button button-full button-positive" ng-click="sendLink()">Send</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+  </script>
+
+  <script id="templates/modal5.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Message</h1>
+          <button class="button button-clear button-primary" ng-click="modal5.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+
+          	<label class="item item-input">
+              <input type="input" ng-value="username" class="tag" readonly>
+            </label>
+
+            <label class="item item-input">
+              <input type="text" placeholder="Youtube link Here" id="message5">
+            </label>
+            
+            <button class="button button-full button-positive" ng-click="sendVideo()">Send</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+  </script>
 
   </body>
 </html>

@@ -3,10 +3,15 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module("starter", ["ionic",'ionic.service.core', "firebase"]);  
+var app = angular.module("starter", ["ionic",'ionic.service.core', "firebase", "ngSanitize"]);  
 
+app.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
 
-app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicSideMenuDelegate) {
+app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicSideMenuDelegate, $sce) {
   
   $scope.nickname;
   var ref = new Firebase('https://juliansfirstapp.firebaseio.com/');
@@ -23,6 +28,24 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
     scope: $scope
   }).then(function(modal) {
     $scope.modal2 = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/modal3.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal3 = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/modal4.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal4 = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/modal5.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal5 = modal;
   });
 
   
@@ -129,6 +152,44 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
   $scope.toggleLeft = function(){
   	$ionicSideMenuDelegate.toggleLeft();
   }
+
+  $scope.logOut = function(){
+  	location.href = '/';
+  }
+
+  $scope.sendPicture = function() {
+    var search = $('#message3').val();
+         
+    $scope.records.$add({ Name: $('.tag').val(), Message2: search, Time: new Date().getTime() });
+
+    $scope.modal3.hide();
+    
+  };
+
+  $scope.sendLink = function() {
+  	var title = $('#website').val().toString();
+    var search = $('#message4').val().toString();
+    search = '<a href="' + search + '" target="_blank">' + title + '</a>';
+    //search = $sce.trustAsResourceUrl(search);
+
+    $scope.records.$add({ Name: $('.tag').val(), link: search, Time: new Date().getTime() });
+
+    $scope.modal4.hide();
+    
+
+  };
+
+  $scope.sendVideo = function() {
+    var search = $('#message5').val().toString();
+    search = search.replace("watch?v=", "v/");
+    //search = $sce.trustAsResourceUrl(search);
+         
+    $scope.records.$add({ Name: $('.tag').val(), video: search, Time: new Date().getTime() });
+
+    $scope.modal5.hide();
+    
+  };
+
 
 });
 
