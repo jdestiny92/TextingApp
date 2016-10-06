@@ -36,15 +36,30 @@
 
   <body ng-app="starter">
 
-    <ion-pane ng-controller="AppCtrl" ng-init="retrieve()">
-      <ion-header-bar class="bar-stable bar-positive">
-        <h1 class="title">Welcome Back: {{nickname}}</h1>
-      </ion-header-bar>
+    <ion-pane ng-controller="AppCtrl">
+      
+
+      <ion-side-menus>
+      	<ion-side-menu-content>
+      		<ion-header-bar class="bar-stable bar-positive">
+	        <h1 class="title" ng-init="retrieve()">Welcome Back: {{nickname}}</h1>
+	        <button class="button icon button-right ion-navicon-round" menu-toggle="right" ng-click="toggleLeft()"></button>
+	      	</ion-header-bar>
+	      	</ion-side-menu-content>
+      	<ion-side-menu side="right">
+      		<ion-list>
+      			<ion-item>Send Link</ion-item>
+      			<ion-item>Send Picture Link</ion-item>
+      			<ion-item>Send Youtube Video</ion-item>
+      			<ion-item>Log Out</ion-item>
+      		</ion-list>
+      	</ion-side-menu>
+      </ion-side-menus>
 
       <ion-content>
       	<div class="card" ng-repeat="record in records | orderBy: &apos;-Time&apos;">
   			<div class="item item-divider item-royal">
-    		{{nickname}}
+    		{{record.Name}}
   			</div>
   			<div class="item item-text-wrap">
         <img src={{record.Message2}} />
@@ -72,6 +87,10 @@
         <ion-content class="padding">
           <div class="list">
 
+          	<label class="item item-input">
+              <input type="input" ng-value="username" class="tag" readonly>
+            </label>
+
             <label class="item item-input">
               <input ng-model="newMessage.userMessage" type="textarea" placeholder="Your Message" id="message">
             </label>
@@ -90,6 +109,10 @@
         </ion-header-bar>
         <ion-content class="padding">
           <div class="list">
+
+          	<label class="item item-input">
+              <input type="input" ng-value="username" class="tag" readonly>
+            </label>
 
             <label class="item item-input">
               <input type="text" placeholder="GIF Search Keyword" id="message2">

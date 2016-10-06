@@ -6,7 +6,7 @@
 var app = angular.module("starter", ["ionic",'ionic.service.core', "firebase"]);  
 
 
-app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
+app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicSideMenuDelegate) {
   
   $scope.nickname;
   var ref = new Firebase('https://juliansfirstapp.firebaseio.com/');
@@ -27,20 +27,20 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
 
   
   $scope.sendMessage = function(u) {        
-    $scope.records.$add({ Message: u.userMessage, Time: new Date().getTime() });
+    $scope.records.$add({ Name: $('.tag').val(), Message: u.userMessage, Time: new Date().getTime() });
     $scope.modal.hide();
     u.userMessage = '';
   };
 
   $scope.sendMessage2 = function(u) {
     var search = $('#message2').val();
-    $.ajax({url: "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + search, method: 'GET'})
+    $.ajax({url: "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + search, method: 'GET'})
     .done(function(response) {
       console.log(response) // the json object that came back from the api
       var randomImage = response.data.fixed_width_downsampled_url;
       
       
-      $scope.records.$add({ Message2: randomImage, Time: new Date().getTime() });
+      $scope.records.$add({ Name: $('.tag').val(), Message2: randomImage, Time: new Date().getTime() });
     });        
     
     $scope.modal2.hide();
@@ -119,11 +119,16 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
     }).then(function successCallback(response) {
         //console.log(response);
         $scope.nickname = response.data;
+        $scope.username = $scope.nickname;
         //console.log($scope.nickname);
       }, function errorCallback(response) {
         console.log(response);
       });
   };
+
+  $scope.toggleLeft = function(){
+  	$ionicSideMenuDelegate.toggleLeft();
+  }
 
 });
 
