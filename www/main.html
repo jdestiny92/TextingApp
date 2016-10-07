@@ -50,16 +50,16 @@
 	      	<ion-content>
       	<div class="card" ng-repeat="record in records | orderBy: &apos;-Time&apos;">
   			<div class="item item-divider item-royal">
-    		{{record.Name}}
+	    		{{record.Name}}
+	  		</div>
+		  		<div class="item item-text-wrap">
+		  		{{record.Message}}
+		        <img src={{record.Message2}} />
+		        <p ng-bind-html="record.link"></p>
+		        <iframe ng-src="{{record.video | trusted}}" style="width:30vh; height:30vh;"></iframe>
+	    		
+	  			</div>
   			</div>
-  		<div class="item item-text-wrap">
-  		{{record.Message}}
-        <img src={{record.Message2}} />
-        <p ng-bind-html="record.link"></p>
-        <iframe ng-src="{{record.video | trusted}}"></iframe>
-    		
-  			</div>
-  		</div>
       </ion-content>
 
       <div class="bar bar-footer">
