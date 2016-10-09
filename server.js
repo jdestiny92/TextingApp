@@ -69,8 +69,12 @@ app.post('/login', function(req, res){
 	
 });
 
+app.get('/', function(req, res){
+	res.sendfile('www/_index_page/index.html');
+});
+
 app.get('/main', function(req, res){
-	res.sendfile('www/main.html');
+	res.sendfile('www/_main_page/main.html');
 });
 
 app.get('/retrieve', function(req, res){
