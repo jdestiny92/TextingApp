@@ -120,7 +120,8 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
     var name = $('.tag').val();
     //message = message.toString();
     message = message.replace("watch?v=", "v/");
-    var tag = '<iframe ng-src="' + message + '"></iframe>';
+    var tag = '<iframe src="' + message + '"></iframe>';
+    console.log(tag);
     $scope.records.$add({ Name: name, video: tag, Time: new Date().getTime() });
     $scope.modal5.hide();
     message = '';
@@ -135,6 +136,9 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
 
 }
 
+$scope.to_trusted = function(html_code) {
+    return $sce.trustAsHtml(html_code);
+}
 
 });
 
