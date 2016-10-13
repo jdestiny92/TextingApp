@@ -119,7 +119,11 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
   else if(keyWord == 'video'){
     var name = $('.tag').val();
     //message = message.toString();
-    message = message.replace("watch?v=", "v/");
+    var body = 'https://youtube.com/embed/';
+    var count = message.length;
+    message = message.slice(count - 11, count);
+    message = body + message;
+    //message = message.replace("watch?v=", "embed/");
     var tag = '<iframe src="' + message + '"></iframe>';
     console.log(tag);
     $scope.records.$add({ Name: name, video: tag, Time: new Date().getTime() });
@@ -130,8 +134,8 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
     ref.remove();
   }
   else{
-    //location.href = '/';
-    alert('there is an error...');
+    location.href = '/';
+    //alert('there is an error...');
   }
 
 }
