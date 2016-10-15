@@ -11,7 +11,7 @@ app.filter('trusted', ['$sce', function ($sce) {
     };
 }]);
 
-app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicSideMenuDelegate, $sce) {
+app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicSideMenuDelegate, $sce, $ionicPopup) {
   
   $scope.nickname;
   var ref = new Firebase('https://juliansfirstapp.firebaseio.com/');
@@ -131,7 +131,19 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $
     message = '';
   }
   else if(keyWord == 'empty'){
-    ref.remove();
+    $ionicPopup.confirm({
+       title: 'Clear Confirmation',
+       template: 'Are you sure you want to completely clear the chat?'
+     }).then(function(res){
+      if(res){
+        ref.remove();
+        return;
+      }
+      else{
+        return;
+      }
+     })
+    
   }
   else{
     location.href = '/';

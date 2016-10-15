@@ -6,7 +6,7 @@
 var app = angular.module("starter", ["ionic",'ionic.service.core', "firebase", "ngSanitize"]);  
 
 
-app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
+app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http, $ionicPopup) {
   
   $scope.nickname;
   var ref = new Firebase('https://juliansfirstapp.firebaseio.com/');
@@ -63,6 +63,10 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
     }, function(error, userData) {
       if (error) {
         console.log("Error creating user:", error);
+        return $ionicPopup.alert({
+	     title: 'Registration Failed',
+	     template: 'There was an error, please try again.'
+	   });
       } else {
         console.log("Successfully created user account with uid:", userData.uid);
 
@@ -75,6 +79,11 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
     });
 
     $scope.modal.hide();
+
+    $ionicPopup.alert({
+	     title: 'Registration Succesful',
+	     template: 'Your account was successfully created! Please login, keeping in mind credentails are case sensitive.'
+	   });
   };
 
   $scope.login = function(u) {        
@@ -90,7 +99,10 @@ app.controller('AppCtrl', function($scope, $ionicModal, $firebaseArray, $http) {
     }, function(error, authData) {
       if (error) {
         //console.log("Login Failed!", error);
-        return alert('Login failed, please try again');
+        return $ionicPopup.alert({
+	     title: 'Login Failed',
+	     template: 'There was an error, please try again.'
+	   });
       } else {
         console.log("Authenticated successfully with payload");
 
